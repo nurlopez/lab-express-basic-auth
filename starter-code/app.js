@@ -9,6 +9,11 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session)
+
+var router = require('./routes/index');
+var siteRouter = require('./routes/site-routes')
 
 mongoose
   .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
@@ -47,8 +52,11 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'TetrisVille';
 
+// Routes
+app.use('/', router);  // '/' , '/login' '/auth' '/signup'
+app.use('/', siteRouter);
 
 
 const index = require('./routes/index');
